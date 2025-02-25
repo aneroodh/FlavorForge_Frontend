@@ -2,7 +2,7 @@ function PreferencesForm({ preferences, onPreferenceChange }) {
     const options = ['vegan', 'vegetarian', 'gluten-free', 'dairy-free', 'nut-free'];
   
     return (
-      <div className="bg-gray-400 p-8 rounded-lg shadow-lg text-center">
+      <div className="bg-[#374785] p-8 rounded-lg shadow-lg text-center">
         <h3>Dietary Preferences</h3>
         {options.map((option) => (
           <label key={option}>

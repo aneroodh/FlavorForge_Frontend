@@ -1,13 +1,13 @@
-import RecipeCard from './RecipeCard';
+import RecipeCard from "./RecipeCard";
 
 function SavedRecipes({ savedRecipes, onRemoveRecipe }) {
   return (
-    <div className="bg-gray-600 p-8 rounded-lg shadow-lg text-center">
+    <div>
       <h3>Saved Recipes</h3>
       <div className="saved-recipes">
         {savedRecipes.map((recipe) => (
           <RecipeCard
-            key={recipe.id}
+            key={recipe._id} // Use MongoDB's _id as the unique key
             recipe={recipe}
             showRemoveButton={true}
             onRemove={onRemoveRecipe}
