@@ -3,7 +3,9 @@ function RecipeCard({ recipe, showSaveButton, showRemoveButton, onSave, onRemove
     <div className="recipe-card bg-white p-4 rounded-md shadow-md hover:scale-105 transition-transform">
       <h4 className="text-lg font-bold text-brown-800">{recipe.title}</h4>
       <p className="text-gray-700">👉 {recipe.description}</p>
-      <p className="text-gray-700">👉 {recipe.ingredients}</p>
+      {recipe.ingredients.map((ingredient,i) => (
+        <p className="text-gray-700">{i+1}. {ingredient}</p>
+      ))}
       <p className="text-gray-700">👉 {recipe.instructions}</p>
       <div className="mt-2 space-x-2">
         {showSaveButton && (
