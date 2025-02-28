@@ -1,14 +1,15 @@
 import { SignedIn, SignedOut, SignInButton, UserButton, useAuth } from "@clerk/clerk-react";
-import './styles.css';
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, NavLink } from "react-router-dom";
 import axios from 'axios';
+import './styles.css';
 import IngredientInput from './components/IngredientInput.jsx';
 import PreferencesForm from './components/PreferencesForm.jsx';
 import RecipeList from './components/RecipeList.jsx';
 import SavedRecipes from './components/SavedRecipes.jsx';
 
 function App() {
-  const { userId, getToken } = useAuth(); // Use useAuth instead of useUser
+  const { userId, getToken } = useAuth();
   const [ingredients, setIngredients] = useState([]);
   const [preferences, setPreferences] = useState([]);
   const [recipes, setRecipes] = useState([]);
@@ -32,7 +33,6 @@ function App() {
     }
   };
 
-  // Fetch saved recipes when the user signs in
   useEffect(() => {
     const fetchSavedRecipes = async () => {
       if (!userId) return;
@@ -42,7 +42,7 @@ function App() {
         const response = await axios.get('http://localhost:5000/saved-recipes', {
           headers: { Authorization: `Bearer ${token}` },
         });
-        setSavedRecipes(response.data.recipes); // Sets savedRecipes with _id
+        setSavedRecipes(response.data.recipes);
       } catch (err) {
         console.error('Error fetching saved recipes:', err);
         setError('Failed to load saved recipes.');
@@ -50,11 +50,9 @@ function App() {
         setLoading(false);
       }
     };
-  
     fetchSavedRecipes();
   }, [userId, getToken]);
 
-  // Save recipe to MongoDB
   const saveRecipe = async (recipe) => {
     try {
       const token = await getToken();
@@ -93,7 +91,7 @@ function App() {
       });
       const recipesWithIds = response.data.recipes.map((recipe, index) => ({
         ...recipe,
-        _id: `temp-${index}-${Date.now()}`, // Temporary unique ID
+        _id: `temp-${index}-${Date.now()}`,
       }));
       setRecipes(recipesWithIds);
     } catch (err) {
@@ -104,53 +102,85 @@ function App() {
     }
   };
 
+  const Home = () => (
+    <div className="flex flex-col items-center space-y-6">
+      <IngredientInput
+        ingredients={ingredients}
+        addIngredient={addIngredient}
+        removeIngredient={removeIngredient}
+      />
+      <PreferencesForm
+        preferences={preferences}
+        onPreferenceChange={handlePreferenceChange}
+      />
+      <button
+        onClick={handleGenerateRecipes}
+        disabled={loading}
+        className="generate-button"
+      >
+        {loading ? 'Generating...' : 'Generate Recipes'}
+      </button>
+      {error && <p className="text-red-500">{error}</p>}
+      <RecipeList recipes={recipes} onSaveRecipe={saveRecipe} />
+    </div>
+  );
+
+  const Recipes = () => (
+    <div className="flex flex-col items-center">
+      <SavedRecipes savedRecipes={savedRecipes} onRemoveRecipe={removeRecipe} />
+    </div>
+  );
+
   return (
-    <header>
-      <SignedOut>
-        <div className="min-h-screen flex flex-col items-center justify-center login-background">
-          <div className="bg-gray-400 p-8 rounded-lg shadow-lg text-center">
-            <div className="flex justify-center pt-3 pb-5">
-              {/* <img src={Logo} alt="FlavorForge logo" /> */}
+    <Router>
+      <header>
+        <SignedOut>
+          <div className="min-h-screen flex items-center justify-center login-background">
+            <div className="bg-white p-8 rounded-lg shadow-lg text-center">
+              <h1 className="text-3xl font-bold text-brown-800 mb-2">Welcome to FlavorForge</h1>
+              <p className="text-gray-600 mb-6">Sign in to explore delicious recipes tailored to you.</p>
+              <SignInButton mode="modal">
+                <button className="bg-orange-500 text-white px-6 py-2 rounded-md text-lg font-medium hover:bg-orange-600 transition">
+                  Sign In
+                </button>
+              </SignInButton>
             </div>
-            <h1 className="text-2xl font-semibold text-gray-700 mb-2">Welcome to FlavorForge</h1>
-            <p className="text-gray-500 mb-6">Sign in to get a personalized experience.</p>
-            <SignInButton mode="modal">
-              <button className="bg-blue-500 text-white px-6 py-2 rounded-md text-lg font-medium hover:bg-blue-600 transition">
-                Sign In
-              </button>
-            </SignInButton>
           </div>
-        </div>
-      </SignedOut>
-      <SignedIn>
-        <div className="bg-[#ECECEC]">
-          <UserButton />
-          <div>
-            <IngredientInput
-              ingredients={ingredients}
-              addIngredient={addIngredient}
-              removeIngredient={removeIngredient}
-            />
-            <PreferencesForm
-              preferences={preferences}
-              onPreferenceChange={handlePreferenceChange}
-            />
-            <div className="mt-4">
-              <button
-                onClick={handleGenerateRecipes}
-                disabled={loading}
-                className="bg-green-500 text-white px-6 py-2 rounded-md text-lg font-medium hover:bg-green-600 transition disabled:bg-gray-400"
-              >
-                {loading ? 'Generating...' : 'Generate Recipes'}
-              </button>
+        </SignedOut>
+        <SignedIn>
+          <div className="min-h-screen flex flex-col animated-background">
+            <nav className="bg-brown-800 p-4 flex justify-between items-center">
+              <div className="text-white text-xl font-bold">FlavorForge</div>
+              <div className="space-x-4">
+                <NavLink
+                  to="/"
+                  className={({ isActive }) =>
+                    isActive ? "text-yellow-300 font-semibold" : "text-white hover:text-yellow-300"
+                  }
+                >
+                  Home
+                </NavLink>
+                <NavLink
+                  to="/recipes"
+                  className={({ isActive }) =>
+                    isActive ? "text-yellow-300 font-semibold" : "text-white hover:text-yellow-300"
+                  }
+                >
+                  Recipes
+                </NavLink>
+              </div>
+              <UserButton />
+            </nav>
+            <div className="flex-grow flex justify-center items-center main-content">
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/recipes" element={<Recipes />} />
+              </Routes>
             </div>
-            {error && <p className="text-red-500 mt-2">{error}</p>}
-            <RecipeList recipes={recipes} onSaveRecipe={saveRecipe} />
-            <SavedRecipes savedRecipes={savedRecipes} onRemoveRecipe={removeRecipe} />
           </div>
-        </div>
-      </SignedIn>
-    </header>
+        </SignedIn>
+      </header>
+    </Router>
   );
 }
 

@@ -2,18 +2,15 @@ import RecipeCard from "./RecipeCard";
 
 function RecipeList({ recipes, onSaveRecipe }) {
   return (
-    <div>
-      <h3>Recipe Suggestions</h3>
-      <div className="recipe-list">
-        {recipes.map((recipe) => (
-          <RecipeCard
-            key={recipe._id} // Use _id instead of index
-            recipe={recipe}
-            showSaveButton={true}
-            onSave={onSaveRecipe}
-          />
-        ))}
-      </div>
+    <div className="recipe-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-6xl mx-auto">
+      {recipes.map((recipe) => (
+        <RecipeCard
+          key={recipe._id}
+          recipe={recipe}
+          showSaveButton={true}
+          onSave={onSaveRecipe}
+        />
+      ))}
     </div>
   );
 }

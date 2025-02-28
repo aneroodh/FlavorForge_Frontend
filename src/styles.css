@@ -1,8 +1,149 @@
 @import "tailwindcss";
 
+/* sign-out style */
 .login-background {
     background-image: url('./assets/login_bg2.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
   }
+
+/* sign-in style */
+
+/* General Styles */
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #FDFDFD; /* Off-white */
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Caveat', cursive;
+}
+
+/* Custom Color Classes */
+.bg-brown-800 {
+  background-color: #8B4513; /* Saddle brown */
+}
+
+.text-brown-800 {
+  color: #8B4513;
+}
+
+.bg-offwhite {
+  background-color: #FDFDFD;
+}
+
+.bg-yellow-100 {
+  background-color: #F8E9A1; /* Light yellow */
+}
+
+.bg-lemon-chiffon {
+  background-color: #FFFACD;
+}
+
+.border-goldenrod {
+  border-color: #DAA520;
+}
+
+.bg-dark {
+  background-color: #2A3132;
+}
+
+/* Navigation Bar */
+nav {
+  background-color: #8B4513;
+}
+
+/* Main Content */
+.main-content {
+  padding: 2rem;
+}
+
+/* Ingredient Input */
+.ingredient-input {
+  background-color: #F8E9A1;
+  border: 1px solid #DAA520;
+}
+
+/* Preferences Form */
+.preferences-form {
+  background-color: #FFFACD;
+}
+
+/* Recipe Card */
+.recipe-card {
+  background-color: #FFFFFF;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Buttons */
+.generate-button {
+  background-color: #32CD32; /* Lime green */
+  color: white;
+  padding: 0.5rem 1.5rem;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.generate-button:hover {
+  background-color: #228B22;
+}
+
+.generate-button:disabled {
+  background-color: #A9A9A9;
+}
+
+.save-button {
+  background-color: #228B22; /* Forest green */
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+}
+
+.save-button:hover {
+  background-color: #1a6b1a;
+}
+
+.remove-button {
+  background-color: #DC143C; /* Crimson */
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+}
+
+.remove-button:hover {
+  background-color: #b31030;
+}
+
+/* Login Background */
+.login-background {
+  background-color: #FDFDFD;
+}
+
+
+/* Define the animated background */
+.animated-background {
+  background: repeating-radial-gradient(
+    circle at 20% 20%, 
+    rgba(255, 255, 255, 0.2) 0%, 
+    rgba(255, 255, 255, 0) 10%
+  ), linear-gradient(45deg, #F8E9A1, #FFD700);
+  background-size: 200% 200%;
+  animation: lightShift 15s ease infinite;
+}
+
+/* Animation to shift the background */
+@keyframes lightShift {
+  0% { background-position: 0% 0%; }
+  50% { background-position: 100% 100%; }
+  100% { background-position: 0% 0%; }
+}
+
+/* Accessibility: Disable animation if reduced motion is preferred */
+@media (prefers-reduced-motion: reduce) {
+  .animated-background {
+    animation: none;
+    background: linear-gradient(45deg, #F8E9A1, #FFD700);
+  }
+}

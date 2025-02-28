@@ -2,18 +2,15 @@ import RecipeCard from "./RecipeCard";
 
 function SavedRecipes({ savedRecipes, onRemoveRecipe }) {
   return (
-    <div>
-      <h3>Saved Recipes</h3>
-      <div className="saved-recipes">
-        {savedRecipes.map((recipe) => (
-          <RecipeCard
-            key={recipe._id} // Use MongoDB's _id as the unique key
-            recipe={recipe}
-            showRemoveButton={true}
-            onRemove={onRemoveRecipe}
-          />
-        ))}
-      </div>
+    <div className="saved-recipes grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-6xl mx-auto">
+      {savedRecipes.map((recipe) => (
+        <RecipeCard
+          key={recipe._id}
+          recipe={recipe}
+          showRemoveButton={true}
+          onRemove={onRemoveRecipe}
+        />
+      ))}
     </div>
   );
 }

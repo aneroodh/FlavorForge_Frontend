@@ -1,21 +1,24 @@
 function PreferencesForm({ preferences, onPreferenceChange }) {
-    const options = ['vegan', 'vegetarian', 'gluten-free', 'dairy-free', 'nut-free'];
-  
-    return (
-      <div className="bg-[#374785] p-8 rounded-lg shadow-lg text-center">
-        <h3>Dietary Preferences</h3>
+  const options = ['Vegan', 'Vegetarian', 'Gluten-free', 'Dairy-free', 'Nut-free'];
+
+  return (
+    <div className="preferences-form max-w-md mx-auto p-4 bg-lemon-chiffon rounded-lg shadow-lg">
+      <h3 className="text-xl font-bold text-brown-800 mb-2">Dietary Preferences</h3>
+      <div className="flex flex-wrap gap-4 justify-center">
         {options.map((option) => (
-          <label key={option}>
+          <label key={option} className="flex items-center space-x-2">
             <input
               type="checkbox"
               checked={preferences.includes(option)}
               onChange={(e) => onPreferenceChange(option, e.target.checked)}
+              className="form-checkbox text-green-600"
             />
-            {option}
+            <span>{option}</span>
           </label>
         ))}
       </div>
-    );
-  }
-  
-  export default PreferencesForm;
+    </div>
+  );
+}
+
+export default PreferencesForm;
