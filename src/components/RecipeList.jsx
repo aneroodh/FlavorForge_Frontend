@@ -9,6 +9,7 @@ function RecipeList({ recipes, onSaveRecipe }) {
           recipe={recipe}
           showSaveButton={true}
           onSave={onSaveRecipe}
+          showNutritionButton={false}
         />
       ))}
     </div>

@@ -102,6 +102,14 @@ function App() {
     }
   };
 
+  const updateRecipe = (updatedRecipe) => {
+    setSavedRecipes((prev) =>
+      prev.map((recipe) =>
+        recipe._id === updatedRecipe._id ? updatedRecipe : recipe
+      )
+    );
+  };  
+
   const Home = () => (
     <div className="flex flex-col items-center space-y-6">
       <IngredientInput
@@ -127,7 +135,12 @@ function App() {
 
   const Recipes = () => (
     <div className="flex flex-col items-center">
-      <SavedRecipes savedRecipes={savedRecipes} onRemoveRecipe={removeRecipe} />
+      <SavedRecipes 
+        savedRecipes={savedRecipes}
+        onRemoveRecipe={removeRecipe} 
+        onUpdateRecipe={updateRecipe} // Pass updateRecipe
+        getToken={getToken}           // Pass getToken for authentication
+      />
     </div>
   );
 
