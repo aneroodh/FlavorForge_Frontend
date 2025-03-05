@@ -74,6 +74,38 @@ nav {
 .recipe-card {
   background-color: #FFFFFF;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  position: relative;
+  transition: all 0.3s ease;
+  width: 300px;
+}
+
+.recipe-card.minimized:hover {
+  transform: scale(1.1);
+}
+
+/* Expanded state */
+.recipe-card.expanded {
+  width: 70vw;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center the card */
+  z-index: 1000; /* Ensure it stays above the backdrop */
+  /* Properties for scrolling */
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* Backdrop */
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  z-index: 999;
 }
 
 /* Buttons */

@@ -57,14 +57,17 @@ function App() {
     try {
       const token = await getToken();
       const response = await axios.post(
-        'http://localhost:5000/save-recipe',
+        "http://localhost:5000/save-recipe",
         recipe,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setSavedRecipes((prev) => [...prev, response.data.recipe]);
+      setRecipes((prev) =>
+        prev.map((r) => (r._id === recipe._id ? response.data.recipe : r))
+      ); // Update the recipe in RecipeList with the saved version
     } catch (err) {
-      console.error('Error saving recipe:', err);
-      setError('Failed to save recipe.');
+      console.error("Error saving recipe:", err);
+      setError("Failed to save recipe.");
     }
   };
 
@@ -129,7 +132,11 @@ function App() {
         {loading ? 'Generating...' : 'Generate Recipes'}
       </button>
       {error && <p className="text-red-500">{error}</p>}
-      <RecipeList recipes={recipes} onSaveRecipe={saveRecipe} />
+      <RecipeList
+        recipes={recipes}
+        onSaveRecipe={saveRecipe}
+        savedRecipes={savedRecipes}
+      />
     </div>
   );
 

@@ -6,7 +6,7 @@ function NutritionalInfo({ nutrition }) {
   }
 
   return (
-    <div className="mt-4 p-4 bg-gray-100 rounded-lg">
+    <div className="my-4 p-4 bg-gray-100 rounded-lg">
       <h3 className="text-lg font-semibold">Nutritional Information (per serving)</h3>
       <ul className="list-disc list-inside mt-2">
         <li>Calories: {nutrition.calories || 0} kcal</li>
