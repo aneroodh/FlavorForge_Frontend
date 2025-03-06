@@ -12,6 +12,7 @@ function App() {
   const { userId, getToken } = useAuth();
   const [ingredients, setIngredients] = useState([]);
   const [preferences, setPreferences] = useState([]);
+  const [mealType, setMealType] = useState('');
   const [recipes, setRecipes] = useState([]);
   const [savedRecipes, setSavedRecipes] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -30,6 +31,28 @@ function App() {
       setPreferences((prev) => [...prev, option]);
     } else {
       setPreferences((prev) => prev.filter((p) => p !== option));
+    }
+  };
+  
+  const handleGenerateRecipes = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await axios.post('http://localhost:5000/generate-recipes', {
+        ingredients,
+        preferences,
+        mealType,
+      });
+      const recipesWithIds = response.data.recipes.map((recipe, index) => ({
+        ...recipe,
+        _id: `temp-${index}-${Date.now()}`,
+      }));
+      setRecipes(recipesWithIds);
+    } catch (err) {
+      console.error('Error generating recipes:', err);
+      setError('Failed to generate recipes. Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -58,7 +81,7 @@ function App() {
       const token = await getToken();
       const response = await axios.post(
         "http://localhost:5000/save-recipe",
-        recipe,
+        { ...recipe, tags: recipe.tags || [] },
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setSavedRecipes((prev) => [...prev, response.data.recipe]);
@@ -84,27 +107,6 @@ function App() {
     }
   };
 
-  const handleGenerateRecipes = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const response = await axios.post('http://localhost:5000/generate-recipes', {
-        ingredients,
-        preferences,
-      });
-      const recipesWithIds = response.data.recipes.map((recipe, index) => ({
-        ...recipe,
-        _id: `temp-${index}-${Date.now()}`,
-      }));
-      setRecipes(recipesWithIds);
-    } catch (err) {
-      console.error('Error generating recipes:', err);
-      setError('Failed to generate recipes. Please try again.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const updateRecipe = (updatedRecipe) => {
     setSavedRecipes((prev) =>
       prev.map((recipe) =>
@@ -123,13 +125,15 @@ function App() {
       <PreferencesForm
         preferences={preferences}
         onPreferenceChange={handlePreferenceChange}
+        mealType={mealType}
+        onMealTypeChange={setMealType}
       />
       <button
         onClick={handleGenerateRecipes}
         disabled={loading}
         className="generate-button"
       >
-        {loading ? 'Generating...' : 'Generate Recipes'}
+        {loading ? 'Generating...🥣' : 'Generate Recipes 👨‍🍳'}
       </button>
       {error && <p className="text-red-500">{error}</p>}
       <RecipeList

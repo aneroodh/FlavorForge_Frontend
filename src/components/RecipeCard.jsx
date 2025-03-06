@@ -1,3 +1,4 @@
+// RecipeCard.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
 import NutritionalInfo from './NutritionalInfo';
@@ -12,6 +13,8 @@ function RecipeCard({
   onEdit,
   getToken,
   isSaved = false,
+  onToggleFavourite, // New prop for toggling favourite
+  isFavourite,       // New prop for favourite status
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -61,7 +64,18 @@ function RecipeCard({
         }`}
         onClick={handleToggleExpand}
       >
-        <h4 className="text-lg font-bold text-brown-800">{recipe.title}</h4>
+        <h4 className="text-lg font-bold text-brown-800 inline">{recipe.title}</h4>
+        {inSavedRecipe && (
+          <button
+            className={`mx-1 px-2 bg-amber-100 ${isFavourite ? 'text-red-500' : 'text-gray-500'}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              onToggleFavourite();
+            }}
+          >
+            {isFavourite ? '❤️' : '🤍'}
+          </button>
+        )}
         <p className="text-gray-700">{recipe.description}</p>
         {!isExpanded && (
           <p className="text-gray-500 mt-2">Click to expand</p>
@@ -102,7 +116,6 @@ function RecipeCard({
               {showSaveButton && isSaved && (
                 <span className="text-green-600 font-semibold">Saved</span>
               )}
-              
               {inSavedRecipe && (
                 <button
                   className="edit-button"
@@ -137,6 +150,7 @@ function RecipeCard({
                   {isLoading ? 'Loading...' : 'Get Nutritional Info'}
                 </button>
               )}
+              
               {error && <p className="text-red-500 mt-2">{error}</p>}
             </div>
           </div>
