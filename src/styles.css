@@ -137,13 +137,22 @@ nav {
   background-color: #1a6b1a;
 }
 
+.edit-button {
+  background-color: black;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+}
+.edit-button:hover {
+  background-color: #4c4156;
+}
+
 .remove-button {
   background-color: #DC143C; /* Crimson */
   color: white;
   padding: 0.5rem 1rem;
   border-radius: 0.25rem;
 }
-
 .remove-button:hover {
   background-color: #b31030;
 }

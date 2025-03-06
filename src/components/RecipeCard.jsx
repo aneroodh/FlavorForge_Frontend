@@ -5,11 +5,11 @@ import NutritionalInfo from './NutritionalInfo';
 function RecipeCard({
   recipe,
   showSaveButton,
-  showRemoveButton,
-  showNutritionButton,
+  inSavedRecipe,
   onSave,
   onRemove,
   onUpdate,
+  onEdit,
   getToken,
   isSaved = false,
 }) {
@@ -102,18 +102,30 @@ function RecipeCard({
               {showSaveButton && isSaved && (
                 <span className="text-green-600 font-semibold">Saved</span>
               )}
-              {showRemoveButton && (
+              
+              {inSavedRecipe && (
                 <button
-                  className="remove-button bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                  className="edit-button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onEdit(recipe);
+                  }}
+                >
+                  ✏️Edit
+                </button>
+              )}
+              {inSavedRecipe && (
+                <button
+                  className="remove-button"
                   onClick={(e) => {
                     e.stopPropagation();
                     onRemove(recipe);
                   }}
                 >
-                  Remove
+                  🗑️Remove
                 </button>
               )}
-              {showNutritionButton && !recipe.nutrition && (
+              {inSavedRecipe && !recipe.nutrition && (
                 <button
                   className="my-2 nutrition-button bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                   onClick={(e) => {

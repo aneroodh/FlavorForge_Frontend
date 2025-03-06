@@ -144,9 +144,10 @@ function App() {
     <div className="flex flex-col items-center">
       <SavedRecipes 
         savedRecipes={savedRecipes}
+        setSavedRecipes={setSavedRecipes}
         onRemoveRecipe={removeRecipe} 
-        onUpdateRecipe={updateRecipe} // Pass updateRecipe
-        getToken={getToken}           // Pass getToken for authentication
+        onUpdateRecipe={updateRecipe} 
+        getToken={getToken}           
       />
     </div>
   );
