@@ -62,7 +62,7 @@ function App() {
       setLoading(true);
       try {
         const token = await getToken();
-        const response = await axios.get('https://flavor-forge-backend.vercel.app/saved-recipe', {
+        const response = await axios.get('https://flavor-forge-backend.vercel.app/saved-recipes', {
           headers: { Authorization: `Bearer ${token}` },
         });
         setSavedRecipes(response.data.recipes);
