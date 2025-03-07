@@ -1,4 +1,3 @@
-// PreferencesForm.jsx
 import React from 'react';
 
 function PreferencesForm({ preferences, onPreferenceChange, mealType, onMealTypeChange }) {

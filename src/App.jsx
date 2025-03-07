@@ -38,7 +38,7 @@ function App() {
     setLoading(true);
     setError(null);
     try {
-      const response = await axios.post('http://localhost:5000/generate-recipes', {
+      const response = await axios.post('https://flavor-forge-backend.vercel.app/generate-recipes', {
         ingredients,
         preferences,
         mealType,
@@ -62,7 +62,7 @@ function App() {
       setLoading(true);
       try {
         const token = await getToken();
-        const response = await axios.get('http://localhost:5000/saved-recipes', {
+        const response = await axios.get('https://flavor-forge-backend.vercel.app/saved-recipe', {
           headers: { Authorization: `Bearer ${token}` },
         });
         setSavedRecipes(response.data.recipes);
@@ -80,7 +80,7 @@ function App() {
     try {
       const token = await getToken();
       const response = await axios.post(
-        "http://localhost:5000/save-recipe",
+        "https://flavor-forge-backend.vercel.app/save-recipe",
         { ...recipe, tags: recipe.tags || [] },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -97,7 +97,7 @@ function App() {
   const removeRecipe = async (recipe) => {
     try {
       const token = await getToken();
-      await axios.delete(`http://localhost:5000/saved-recipes/${recipe._id}`, {
+      await axios.delete(`https://flavor-forge-backend.vercel.app/saved-recipes/${recipe._id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setSavedRecipes((prev) => prev.filter((r) => r._id !== recipe._id));

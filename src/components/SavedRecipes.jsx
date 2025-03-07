@@ -23,7 +23,7 @@ function SavedRecipes({ savedRecipes, setSavedRecipes, onRemoveRecipe, onUpdateR
   
       // Send only the favourite field in the PUT request
       await axios.put(
-        `http://localhost:5000/update-recipe/${recipe._id}`,
+        `https://flavor-forge-backend.vercel.app/update-recipe/${recipe._id}`,
         { favourite: updatedFavourite },
         { headers: { Authorization: `Bearer ${token}` } }
       );

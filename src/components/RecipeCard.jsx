@@ -1,4 +1,3 @@
-// RecipeCard.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
 import NutritionalInfo from './NutritionalInfo';
@@ -34,7 +33,7 @@ function RecipeCard({
     setError(null);
     try {
       const token = await getToken();
-      const response = await axios.get(`http://localhost:5000/get-nutrition/${recipeId}`, {
+      const response = await axios.get(`https://flavor-forge-backend.vercel.app/get-nutrition/${recipeId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       onUpdate(response.data.recipe);

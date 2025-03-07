@@ -13,7 +13,7 @@ function EditRecipeModal({ recipe, onClose, onUpdate, getToken }) {
       const ingredientsArray = ingredientsText.split('\n').map(item => item.trim()).filter(item => item);
       const token = await getToken();
       const response = await axios.put(
-        `http://localhost:5000/update-recipe/${recipe._id}`,
+        `https://flavor-forge-backend.vercel.app/update-recipe/${recipe._id}`,
         { title, description, ingredients: ingredientsArray, instructions },
         { headers: { Authorization: `Bearer ${token}` } }
       );
